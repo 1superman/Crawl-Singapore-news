@@ -14,7 +14,6 @@ MAX_COUNT=3
 
 header = {'User-Agent': UserAgent().random, 'Accept-Language': 'zh-CN,zh;q=0.9'}
 
-
 def Bulon():
     if os.path.exists('布隆文件/{}.blm'.format(DATABASE)):
         bf =BloomFilter.fromfile(open('布隆文件/{}.blm'.format(DATABASE),'rb'))
@@ -22,26 +21,20 @@ def Bulon():
         bf = BloomFilter(1000000,0.001) 
     return bf
    
-
 def get_html(url, count=1):
     print('Crawling', url)
     print('Trying Count', count)
     if count >= MAX_COUNT:
         print('Tried Too Many Counts')
         return None
-    try:
-        
-        response = requests.get(url, headers=header,timeout=15)
-        
-        return response
-        
+    try:        
+        response = requests.get(url, headers=header,timeout=15)        
+        return response       
     except :
         count += 1
         return get_html(url, count)
 
-
 def save_to_sql(title,originaltitle,createtime,author,content,originalcontent,articlesource,source,label,keyword,country,url,Englishtitle,Englishcontent,details,originaldetails,Englishdetails):       
- 
     sql_insert="insert into Singapore (title,originaltitle,createtime,author,content,originalcontent,articlesource,source,label,keyword,country,url,Englishtitle,Englishcontent,details,originaldetails,Englishdetails,currenttime) values(N'" + title + "',N'" +originaltitle + "',N'" +createtime + "',N'" +author + "',N'" +content + "',N'" +originalcontent + "',N'" +articlesource + "',N'" +source + "',N'" +label + "',N'" +keyword + "',N'" +country + "',N'" +url + "',N'" +Englishtitle + "',N'" +Englishcontent + "',N'" +details + "',N'" +originaldetails + "',N'" +Englishdetails + "',GETDATE())"
     DB.PI_YuQing(sql_insert)
 
